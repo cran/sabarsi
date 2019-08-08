@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Chuanqi Wang" />
+
+
+<title>sabarsi</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">sabarsi</h1>
+<h4 class="author">Chuanqi Wang</h4>
+
+
+
+<p>This sabarsi package implements the algorithm described in Wang et al., “A Statistical Approach of Background Removal and Spectrum Identification for SERS Data”. The algorithm includes background removal, signal detection, signal integration, and cross-experiment comparison. A real SERS spectrum dataset will be use for illustration.</p>
+<div id="load-the-package" class="section level2">
+<h2>1. Load the package</h2>
+<p>First, we need to install and load the ClussCluster package. For each of the following sections in this vignette, we assume this step has been carried out.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(sabarsi)</a></code></pre></div>
+</div>
+<div id="example-data-set" class="section level2">
+<h2>2. Example Data set</h2>
+<p>For this vignette we will use the a subset of the three-vitamin dataset used in the paper. It contains the truncated SERS spectra from two technical replicates, R1 and R2, and each replicate has spectra with 500 frequency channels collected from 500 time points. The SERS spectra in each replicate is summarized into a 500 by 500 matrix, and each column is a spectrum of a time points.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">data</span>(SERS)</a>
+<a class="sourceLine" id="cb2-2" title="2">x &lt;-<span class="st"> </span><span class="kw">list</span>()</a>
+<a class="sourceLine" id="cb2-3" title="3">x[[<span class="dv">1</span>]] &lt;-<span class="st"> </span>SERS<span class="op">$</span>R1</a>
+<a class="sourceLine" id="cb2-4" title="4">x[[<span class="dv">2</span>]] &lt;-<span class="st"> </span>SERS<span class="op">$</span>R2</a>
+<a class="sourceLine" id="cb2-5" title="5"><span class="kw">dim</span>(x[[<span class="dv">1</span>]])</a>
+<a class="sourceLine" id="cb2-6" title="6"><span class="co">#&gt; [1] 500 500</span></a></code></pre></div>
+<p>One can visualize a spectrum of one time point. For example, the signal of riboflavin appears around time point 80 in R1 and around time point 63 in R2, and we plot out the spectra in R1 and R2 as follows:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">t1 &lt;-<span class="st"> </span><span class="dv">80</span></a>
+<a class="sourceLine" id="cb3-2" title="2">t2 &lt;-<span class="st"> </span><span class="dv">63</span></a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="kw">layout</span>(<span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>,<span class="dt">nrow=</span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="kw">par</span>(<span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</a>
+<a class="sourceLine" id="cb3-5" title="5"><span class="kw">plot</span>(x[[<span class="dv">1</span>]][,t1], <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Frequency&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Intensity&quot;</span>)</a>
+<a class="sourceLine" id="cb3-6" title="6"><span class="kw">plot</span>(x[[<span class="dv">2</span>]][,t2], <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Frequency&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Intensity&quot;</span>)</a></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+<div id="remove-the-background" class="section level2">
+<h2>3. Remove the background</h2>
+<p>The very first step of SERS spectrum analysis is to remove the strong background. One can choose the window sizes for the time domain and frequency domain. Here we simply use the default value, 50, for two window sizes. To save time, we have saved the background-removed spectra and will load it in the following parts.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">xr &lt;-<span class="st"> </span><span class="kw">list</span>()</a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>) {</a>
+<a class="sourceLine" id="cb4-3" title="3">  xr[[i]] &lt;-<span class="st"> </span><span class="kw">background_removal</span>(x[[i]])</a>
+<a class="sourceLine" id="cb4-4" title="4">}</a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="co">#&gt; 81blocks to calculate...</span></a>
+<a class="sourceLine" id="cb4-6" title="6"><span class="co">#&gt; 81blocks to calculate...</span></a></code></pre></div>
+<p>Now we can plot out the background-removed spectra of riboflavin in R1 and R2 respectively.</p>
+<p>#```{r,eval=TRUE, echo=FALSE}</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">layout</span>(<span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dt">nrow =</span> <span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="kw">par</span>(<span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="kw">plot</span>(xr[[<span class="dv">1</span>]][,t1], <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Frequency&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Intensity&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;R1&quot;</span>)</a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="kw">plot</span>(xr[[<span class="dv">2</span>]][,t2], <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Frequency&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Intensity&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;R2&quot;</span>)</a></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --> ## 3. Signal detection Then we use the background removed spectra to detect signals. To distinguish signals from random noises, there are three cutoffs: a FDR cutoff, a signal intensity cutoff, and a signal width cutoff. We still use the default values to analyze this data.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">res &lt;-<span class="st"> </span><span class="kw">list</span>()</a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>) {</a>
+<a class="sourceLine" id="cb6-3" title="3">  res[[i]] &lt;-<span class="st"> </span><span class="kw">signal_detection</span>(xr[[i]])</a>
+<a class="sourceLine" id="cb6-4" title="4">}</a></code></pre></div>
+<p>The time points of signals detected are save in  of res. One can check the first few time points of signals.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">head</span>(res[[<span class="dv">1</span>]]<span class="op">$</span>tim.index)</a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="co">#&gt; [1]  80  81  82 160 161</span></a></code></pre></div>
+</div>
+<div id="merge-concatenated-signals-and-obtain-signature-signals" class="section level2">
+<h2>4. Merge concatenated signals and obtain signature signals</h2>
+<p>In , you may find groups of consecutive time points. Those signals are usually similar to each other and likely to come from the same analytes. We merge concatenated signals and obtain their signature signals as follows.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">tim.index.ss &lt;-<span class="st"> </span><span class="kw">list</span>()</a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>) {</a>
+<a class="sourceLine" id="cb8-3" title="3">  tim.index.ss[[i]] &lt;-<span class="st"> </span><span class="kw">merge_signals</span>(<span class="dt">xr =</span> xr[[i]], <span class="dt">object =</span> res[[i]])</a>
+<a class="sourceLine" id="cb8-4" title="4">}</a></code></pre></div>
+</div>
+<div id="cross-experiment-comparison" class="section level2">
+<h2>4. Cross-experiment comparison</h2>
+<p>The signals from the same analytes should be similar to each other in their shapes, and one commonly used similarity metric is Pearson’s correlation. However, a few shifts along the frequency channel substantially substantially influence this measurement. For example, by visualizing the signals of riboflavin from R1 and R2 in the same plot, we can clearly observe the shift, and their Pearson’s correlation is very small</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">plot</span>(xr[[<span class="dv">1</span>]][,t1], <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Frequency&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Intensity&quot;</span>)</a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="kw">lines</span>(xr[[<span class="dv">2</span>]][,t2], <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>)</a></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"></a>
+<a class="sourceLine" id="cb10-2" title="2"><span class="kw">print</span>(<span class="kw">cor</span>(xr[[<span class="dv">1</span>]][, t1], xr[[<span class="dv">2</span>]][, t2]))</a>
+<a class="sourceLine" id="cb10-3" title="3"><span class="co">#&gt; [1] -0.007426239</span></a></code></pre></div>
+<p>Therefore, to correctly match signals from different experiments, we need to take the frequency shift into account. For example, for signature signals R1, we find their best matched signals in R2 as follows:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"></a>
+<a class="sourceLine" id="cb11-2" title="2">res.match &lt;-<span class="st"> </span><span class="kw">shift_match</span>(xr[[<span class="dv">1</span>]], xr[[<span class="dv">2</span>]], tim.index.ss[[<span class="dv">1</span>]],tim.index.ss[[<span class="dv">2</span>]])</a>
+<a class="sourceLine" id="cb11-3" title="3"><span class="kw">print</span>(res.match)</a>
+<a class="sourceLine" id="cb11-4" title="4"><span class="co">#&gt;    ta  tb corelation</span></a>
+<a class="sourceLine" id="cb11-5" title="5"><span class="co">#&gt; 1  80  63  0.6764028</span></a>
+<a class="sourceLine" id="cb11-6" title="6"><span class="co">#&gt; 2 161 129  0.7085611</span></a></code></pre></div>
+<p>By considering the frequency shift in our new similarity metric, the signals of riboflavin in R1 and R2 are successfully matched, and the corrected Pearson’s correlation is now 0.6764.</p>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

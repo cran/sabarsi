@@ -1,0 +1,115 @@
+---
+title: "sabarsi"
+author: "Chuanqi Wang"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{sabarsi}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+This sabarsi package implements the algorithm described in Wang et al., "A Statistical Approach of Background Removal and Spectrum Identification for SERS Data". The algorithm includes background removal, signal detection, signal integration, and cross-experiment comparison. A real SERS spectrum dataset will be use for illustration.
+
+
+## 1. Load the package
+
+First, we need to install and load the ClussCluster package. For each of the following sections in this vignette, we assume this step has been carried out.
+```{r setup}
+library(sabarsi)
+```
+## 2. Example Data set
+
+For this vignette we will use the a subset of the three-vitamin dataset used in the paper. It contains the truncated SERS spectra from two technical replicates, R1 and R2, and each replicate has spectra with 500 frequency channels collected from 500 time points. The SERS spectra in each replicate is summarized into a 500 by 500 matrix, and each column is a spectrum of a time points. 
+```{r}
+data(SERS)
+x <- list()
+x[[1]] <- SERS$R1
+x[[2]] <- SERS$R2
+dim(x[[1]])
+```
+One can visualize a spectrum of one time point. For example, the signal of riboflavin appears around time point 80 in R1 and around time point 63 in R2, and we plot out the spectra in R1 and R2 as follows:
+
+```{r}
+t1 <- 80
+t2 <- 63
+layout(matrix(1:2,nrow=2))
+par(mar=c(0,0,0,0))
+plot(x[[1]][,t1], type = "l", xlab = "Frequency", ylab = "Intensity")
+plot(x[[2]][,t2], type = "l", xlab = "Frequency", ylab = "Intensity")
+```
+
+## 3. Remove the background
+The very first step of SERS spectrum analysis is to remove the strong background. One can choose the window sizes for the time domain and frequency domain. Here we simply use the default value, 50, for two window sizes. To save time, we have saved the background-removed spectra and will load it in the following parts.
+
+```{r}
+xr <- list()
+for (i in 1:2) {
+  xr[[i]] <- background_removal(x[[i]])
+}
+```
+
+Now we can plot out the background-removed spectra of riboflavin in R1 and R2 respectively.
+
+#```{r,eval=TRUE, echo=FALSE}
+
+```{r}
+layout(matrix(1:2, nrow = 2))
+par(mar=c(0,0,0,0))
+plot(xr[[1]][,t1], type = "l", xlab = "Frequency", ylab = "Intensity", main = "R1")
+plot(xr[[2]][,t2], type = "l", xlab = "Frequency", ylab = "Intensity", main = "R2")
+
+```
+## 3. Signal detection
+Then we use the background removed spectra to detect signals. To distinguish signals from random noises, there are three cutoffs: a FDR cutoff, a signal intensity cutoff, and a signal width cutoff. We still use the default values to analyze this data.
+
+
+```{r}
+res <- list()
+for (i in 1:2) {
+  res[[i]] <- signal_detection(xr[[i]])
+}
+```
+
+The time points of signals detected are save in \code{tim.index} of res. One can check the first few time points of signals.
+
+```{r}
+head(res[[1]]$tim.index)
+```
+
+## 4. Merge concatenated signals and obtain signature signals
+In \code{tim.index}, you may find groups of consecutive time points. Those signals are usually similar to each other and likely to come from the same analytes. We merge concatenated signals and obtain their signature signals as follows.
+
+```{r,message=FALSE}
+tim.index.ss <- list()
+for (i in 1:2) {
+  tim.index.ss[[i]] <- merge_signals(xr = xr[[i]], object = res[[i]])
+}
+
+```
+
+
+## 4. Cross-experiment comparison
+
+The signals from the same analytes should be similar to each other in their shapes, and one commonly used similarity metric is Pearson's correlation. However, a few shifts along the frequency channel substantially substantially influence this measurement. For example, by visualizing the signals of riboflavin from R1 and R2 in the same plot, we can clearly observe the shift, and their Pearson's correlation is very small
+
+```{r}
+plot(xr[[1]][,t1], type = "l", col = "red", xlab = "Frequency", ylab = "Intensity")
+lines(xr[[2]][,t2], col = "blue")
+
+print(cor(xr[[1]][, t1], xr[[2]][, t2]))
+```
+Therefore, to correctly match signals from different experiments, we need to take the frequency shift into account. For example, for signature signals R1, we find their best matched signals in R2 as follows:
+
+```{r}
+
+res.match <- shift_match(xr[[1]], xr[[2]], tim.index.ss[[1]],tim.index.ss[[2]])
+print(res.match)
+```
+
+By considering the frequency shift in our new similarity metric, the signals of riboflavin in R1 and R2 are successfully matched, and the corrected Pearson's correlation is now 0.6764. 

@@ -1,0 +1,17 @@
+21de81a5b407a72e14332b4edb5789b3 *DESCRIPTION
+d6fcb69abea90b153a276cd2be0f1cd9 *NAMESPACE
+d224e103adccf6624b4842a1f8940448 *R/SABARSI.R
+d963b8bf523cc025f3acacbcf69806ce *R/SERS.dat.R
+3fd9d5cde1f945fce2ef8c3cee01182a *R/internal_functions.R
+b4f09b6d0646bd9af639ed046b499383 *build/vignette.rds
+db024f4d64cc83e41839c8da115d824d *data/SERS.rda
+4bb7b24be9eabe161d239f8b9c529de9 *inst/doc/sabarsi.R
+55a49dc2afb0d9fc02a02f8be886e2f0 *inst/doc/sabarsi.Rmd
+89a6cdad3017dc6208185ea646dfd86c *inst/doc/sabarsi.html
+b2bd3050b951d7e903cc88c671b8664c *man/SERS.Rd
+015ce9be6a2d1ea14ddfc6a0d62f0732 *man/background_removal.Rd
+77c5e579326b7e93e2893c97aa951019 *man/detect_sig.Rd
+385ff2032584e781d57081ce7d8a9afd *man/merge_signals.Rd
+3c7e9cf012572bb1b3b03dc9f1ec03b8 *man/shift_match.Rd
+0ef9a3c58a7bb939dc863dc6f28d4927 *man/signal_detection.Rd
+55a49dc2afb0d9fc02a02f8be886e2f0 *vignettes/sabarsi.Rmd
